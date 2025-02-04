@@ -1,0 +1,76 @@
+Keling, avvalgi javobimda berilgan SQL kodlarini batafsil izohlaymiz:
+CREATE TABLE currencies (
+    id SERIAL PRIMARY KEY,
+    code VARCHAR(3) UNIQUE NOT NULL, -- USD, UZS
+    rate DOUBLE PRECISION NOT NULL,
+    updated_at TIMESTAMP WITHOUT TIME ZONE
+);
+
+Bu kod currencies jadvalini yaratadi.
+
+id SERIAL PRIMARY KEY: id ustuni avtomatik ravishda o'sib boradigan ketma-ket raqamlarni (SERIAL) oladi va jadvalning birlamchi kaliti (PRIMARY KEY) bo'ladi. Bu har bir valyutani noyob tarzda aniqlash uchun ishlatiladi.
+code VARCHAR(3) UNIQUE NOT NULL: code ustuni 3 ta belgidan iborat valyuta kodini (masalan, "USD", "UZS") saqlaydi. UNIQUE kalit so'zi har bir kodning noyob ekanligini ta'minlaydi. NOT NULL esa bu ustunning bo'sh bo'lmasligini bildiradi.
+rate DOUBLE PRECISION NOT NULL: rate ustuni valyuta kursini (masalan, 1 USD necha UZS ga teng) saqlaydi. DOUBLE PRECISION yuqori aniqlikdagi o'nli kasr sonlarini saqlash uchun ishlatiladi. NOT NULL sharti kursning har doim belgilanganligini ta'minlaydi.
+updated_at TIMESTAMP WITHOUT TIME ZONE: updated_at ustuni valyuta kursining oxirgi yangilanish vaqtini saqlaydi. TIMESTAMP WITHOUT TIME ZONE vaqt zonasini hisobga olmaydigan vaqt belgilarini saqlash uchun ishlatiladi.
+
+CREATE TABLE suppliers (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+Bu kod suppliers jadvalini yaratadi.
+
+id SERIAL PRIMARY KEY: Har bir yetkazib beruvchini noyob tarzda aniqlash uchun ishlatiladigan avtomatik ravishda o'sib boradigan ketma-ket raqam.
+name VARCHAR(255) NOT NULL: Yetkazib beruvchining nomi. VARCHAR(255) ustun 255 ta belgidan iborat matnni saqlash uchun ishlatiladi. NOT NULL sharti nomi bo'lishi shartligini bildiradi.
+
+CREATE TABLE products (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    unit VARCHAR(50) NOT NULL -- kg, dona, shisha, etc.
+);
+
+Bu kod products jadvalini yaratadi.
+
+id SERIAL PRIMARY KEY: Har bir mahsulotni noyob tarzda aniqlash uchun ishlatiladigan avtomatik ravishda o'sib boradigan ketma-ket raqam.
+name VARCHAR(255) NOT NULL: Mahsulotning nomi.
+unit VARCHAR(50) NOT NULL: Mahsulotning o'lchov birligi (kg, dona, shisha va hokazo).
+
+CREATE TABLE product_stocks (
+    id SERIAL PRIMARY KEY,
+    product_id INTEGER REFERENCES products(id) ON DELETE CASCADE,
+    quantity INTEGER NOT NULL DEFAULT 0,
+    updated_at TIMESTAMP WITHOUT TIME ZONE
+);
+
+Bu kod product_stocks jadvalini yaratadi. Bu jadvalda har bir mahsulotning ombordagi miqdori saqlanadi.
+
+id SERIAL PRIMARY KEY: Har bir yozuvni noyob tarzda aniqlash uchun ishlatiladigan avtomatik ravishda o'sib boradigan ketma-ket raqam.
+product_id INTEGER REFERENCES products(id) ON DELETE CASCADE: products jadvalidagi id ustuni bilan bog'lanishni belgilaydi. ON DELETE CASCADE sharti agar bog'langan mahsulot o'chirilsa, unga bog'langan barcha yozuvlarni ham o'chirishni bildiradi.
+quantity INTEGER NOT NULL DEFAULT 0: Mahsulotning ombordagi miqdori. DEFAULT 0 sharti yangi yozuv yaratilganda miqdor avtomatik ravishda 0 ga o'rnatiladi.
+updated_at TIMESTAMP WITHOUT TIME ZONE: Miqdorning oxirgi yangilanish vaqti.
+
+CREATE TABLE transactions (
+    id SERIAL PRIMARY KEY,
+    type VARCHAR(10) NOT NULL CHECK (type IN ('income', 'outcome')), -- income or outcome
+    product_id INTEGER REFERENCES products(id) ON DELETE CASCADE,
+    supplier_id INTEGER REFERENCES suppliers(id),
+    quantity INTEGER NOT NULL,
+    price_usd DOUBLE PRECISION,
+    price_uzs DOUBLE PRECISION,
+    transaction_date TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    currency_id INTEGER REFERENCES currencies(id) ON DELETE SET NULL -- UZS or USD
+);
+
+Bu kod transactions jadvalini yaratadi. Bu jadvalda tovarlarning kirimi va chiqimi haqidagi ma'lumotlar saqlanadi.
+
+id SERIAL PRIMARY KEY: Har bir tranzaksiyani noyob tarzda aniqlash uchun ishlatiladigan avtomatik ravishda o'sib boradigan ketma-ket raqam.
+type VARCHAR(10) NOT NULL CHECK (type IN ('income', 'outcome')): Tranzaksiya turini ("income" - kirim, "outcome" - chiqim) saqlaydi. CHECK sharti faqat "income" yoki "outcome" qiymatlarining kiritilishini ta'minlaydi.
+product_id INTEGER REFERENCES products(id) ON DELETE CASCADE: products jadvalidagi id ustuni bilan bog'lanishni belgilaydi. ON DELETE CASCADE sharti agar bog'langan mahsulot o'chirilsa, unga bog'langan barcha yozuvlarni ham o'chirishni bildiradi.
+supplier_id INTEGER REFERENCES suppliers(id): suppliers jadvalidagi id ustuni bilan bog'lanishni belgilaydi. Bu kirim tranzaksiyalari uchun yetkazib beruvchini aniqlash uchun ishlatiladi. NULL qiymat chiqim tranzaksiyalari uchun ruxsat etiladi.
+quantity INTEGER NOT NULL: Tranzaksiyada ishtirok etgan mahsulot miqdori.
+price_usd DOUBLE PRECISION: Tovar narxi USDda.
+price_uzs DOUBLE PRECISION: Tovar narxi UZSda.
+transaction_date TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP: Tranzaksiya vaqti. DEFAULT CURRENT_TIMESTAMP sharti yangi yozuv yaratilganda vaqt avtomatik ravishda o'rnatiladi.
+currency_id INTEGER REFERENCES currencies(id) ON DELETE SET NULL: currencies jadvalidagi id ustuni bilan bog'lanishni belgilaydi. Bu tranzaksiya qaysi valyutada amalga oshirilganligini ko'rsatadi. ON DELETE SET NULL sharti agar bog'langan valyuta o'chirilsa, bu ustun NULL qiymatini oladi.
+
+Ushbu jadvallar o'zaro bog'langan bo'lib, tovarlarni boshqarish va ularning kirimi/chiqimi haqidagi to'liq ma'lumotni saqlash imkonini beradi. ON DELETE CASCADE va ON DELETE SET NULL shartlari ma'lumotlar bazasining yaxlitligini saqlashga yordam beradi.
