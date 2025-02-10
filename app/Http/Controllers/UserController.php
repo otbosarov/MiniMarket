@@ -5,87 +5,49 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegisterRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Interfaces\UserInterface;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function __construct(protected UserInterface $userInterfaceRepo) {}
     public function register(UserRegisterRequest $request)
     {
-        $user = User::create([
-            'full_name' => $request->full_name,
-            'username' => $request->username,
-            'password' => Hash::make($request->password),
-            'phone' => $request->phone,
-        ]);
-        $token  =  $user->createToken('auth-sanctum')->plainTextToken;
-        return response()->json([
-            'message' => "Siz muvaffaqiyatli ro'yhatdan o'tdingiz!",
-            'token' => $token
-        ], 201);
+        return $this->userInterfaceRepo->register($request);
     }
     public function login(UserLoginRequest $request)
     {
-        if (strlen($request->username) == 0 || strlen($request->password) == 0)
-            return 'error';
-
-        $user = User::where('username', $request->get('username'))->first();
-        if (!$user)
-            return response()->json(['message' => 'Login yoki Parol noto\'g\'ri'], 400);
-        if (!Hash::check($request->get('password'), $user->password))
-            return response()->json(['message' => 'Login yoki Parol noto\'g\'ri'], 400);
-
-        $token = $user->createToken('auth-token')->plainTextToken;
-        return response()->json(["token" => $token], 200);
+        return $this->userInterfaceRepo->login($request);
     }
     public function update(UserUpdateRequest $request, $id)
     {
-        if (!($this->check('user', 'edit'))) {
-            return response()->json(['message' => "Amaliyot uchun huquq yo'q"], 403);
-        }
-        $user =  User::where('id', $id)->first();
-        $user->update([
-            'full_name' => $request->full_name  ?? $user->full_name,
-            'password' => $request->password  ?? $user->password,
-            'phone' => $request->phone  ?? $user->phone,
-        ]);
-        return response()->json(['message' => "Ma'lumot yangilandi"], 200);
+         // if (!($this->check('user', 'edit'))) {
+        //     return response()->json(['message' => "Amaliyot uchun huquq yo'q"], 403);
+        // }
+        return $this->userInterfaceRepo->update($request, $id);
     }
     public function destroy($id)
     {
-        if (!($this->check('user', 'delete'))) {
-            return response()->json(['message' => "Amaliyot uchun huquq yo'q"], 403);
-        }
-        $user = User::find($id);
-        if (!$user) {
-            return response()->json(['message' => "Bu $id li user topilmadi"], 404);
-        }
-        $user->delete();
-        return response()->json([
-            'message' => "Ma'lumot o'chirildi",
-            'delete' => $user
-        ], 200);
+          // if (!($this->check('user', 'delete'))) {
+        //     return response()->json(['message' => "Amaliyot uchun huquq yo'q"], 403);
+        // }
+        return $this->userInterfaceRepo->destroy($id);
     }
     public function changeActive($id)
     {
-        if (!($this->check('user', 'edit'))) {
-            return response()->json(['message' => "Amaliyot uchun huquq yo'q"], 403);
-        }
-        $user = User::find($id);
-        if (!$user) {
-            return response()->json(['message' => "Bu $id li ma'lumot topilmadi"], 404);
-        }
-        $user->active = !$user->active;
-        $user->save();
-        return response()->json(['message' => "Amaliyot bajarildi"], 200);
+        // if (!($this->check('user', 'edit'))) {
+        //     return response()->json(['message' => "Amaliyot uchun huquq yo'q"], 403);
+        // }
+        return $this->userInterfaceRepo->changeActive($id);
     }
     public function index()
     {
-        return User::get();
+        return $this->userInterfaceRepo->index();
     }
     public function userInfo()
     {
-        return auth()->user();
+        return $this->userInterfaceRepo->userInfo();
     }
 }

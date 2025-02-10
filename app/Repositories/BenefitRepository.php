@@ -1,38 +1,21 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Repositories;
 
-use App\Exports\BenefitExport;
+use App\Http\Resources\UniversalResource;
+use App\Interfaces\BenefitInterface;
 use App\Models\Benefit;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
-use Maatwebsite\Excel\Facades\Excel;
 
-class BenefitExcelUploadJob implements ShouldQueue
+class BenefitRepository implements BenefitInterface
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
-    /**
-     * Create a new job instance.
-     */
-    public function __construct(private $url,private $startDate,private $endDate)
+    public function index()
     {
-        //
-    }
+        $perPage = request('per_page', 15);
+        $search = request('search');
+        $startDate = request('startDate');
+        $endDate = request('endDate');
 
-    /**
-     * Execute the job.
-     */
-    public function handle(): void
-    {
-        $url = $this->url;
-        $startDate = $this->startDate;
-        $endDate = $this->endDate;
-
-        $data = Benefit::join('products', 'benefits.product_id', 'products.id')
+        $benefit = Benefit::join('products', 'benefits.product_id', 'products.id')
             ->join('categories', 'products.category_id', 'categories.id')
             ->join('unities', 'benefits.unity_id', 'unities.id')
             ->select(
@@ -48,11 +31,18 @@ class BenefitExcelUploadJob implements ShouldQueue
                 'benefits.proceed_price',
                 'benefits.created_at'
             )
+            ->when($search, function ($q) use ($search) {
+                $q->where(function ($query) use ($search) {
+                    $query->where('products.product_name', 'ILIKE', "%$search%")
+                        ->orWhere('categories.category_title', 'ILIKE', "%$search%");
+                });
+            })
             ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
                 $query->whereDate('benefits.created_at', '>=', $startDate)
                     ->whereDate('benefits.created_at', '<=', $endDate);
             })
-            ->get();
-        Excel::store(new BenefitExport($data), $url);
+            ->orderBy('id', 'desc')
+            ->paginate($perPage);
+        return UniversalResource::collection($benefit);
     }
 }

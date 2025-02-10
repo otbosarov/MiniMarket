@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('upload_excels', function (Blueprint $table) {
+        Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->string('status');
-            $table->string('url');
+            $table->foreignId('user_id')->constrained('users')->onDelete('RESTRICT');
+            $table->string('currency_type')->default('UZS');
+            $table->decimal('total_price')->default(0);
             $table->boolean('active')->default(true);
             $table->timestamps();
         });
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('upload_excels');
+        Schema::dropIfExists('invoices');
     }
 };

@@ -8,12 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class UploadExcel extends Model
 {
     use HasFactory;
-    const STATUS_PROCESSING = "Jarayonda";
-    const STATUS_COMPLETED = "Yuklab olindiu";
-    const STATUS_FAILED = "Excel yuklashda xatolik";
+    const STATUS_PROCESSING = "processing";
+    const STATUS_COMPLETED = "completed ";
+    const STATUS_FAILED = "failed";
     protected $fillable = [
         'user_id',
         'status',
+        'file_name',
         'url',
         'active',
     ];

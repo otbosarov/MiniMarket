@@ -5,95 +5,44 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Resources\UniversalResource;
+use App\Interfaces\ProductInterface;
 use App\Models\Currency;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    public function __construct(protected ProductInterface $productInterfaceRepo){}
     public function index()
     {
-        $perPage = request('per_page', 15);
-        $search = request('search');
-
-        $product = Product::join('categories', 'products.category_id', 'categories.id')
-            ->join('users', 'products.user_id', 'users.id')
-            ->select(
-                'products.id',
-                'products.product_name',
-                'categories.category_title',
-                'users.full_name',
-                'products.active'
-            )
-            ->when($search, function ($query) use ($search) {
-                $query->where('products.product_name', 'ILIKE', "%$search%")
-                    ->orWhere('categories.category_title', 'ILIKE', "%$search%");
-            })
-            ->paginate($perPage);
-        return UniversalResource::collection($product);
+      return $this->productInterfaceRepo->index();
     }
     public function store(ProductRequest $request)
     {
         if (!($this->check('product', 'add'))) {
             return response()->json(['message' => "Amaliyot uchun huquq yo'q"], 403);
         }
-        try {
-            Product::create([
-                'product_name' => $request->product_name,
-                'category_id' => $request->category_id,
-                'user_id' => auth()->id()
-            ]);
-            return response()->json(['message' => "Yangi mahsulot yaratildi"], 201);
-        } catch (\Exception $exception) {
-            return response()->json([
-                'message' => "Mahsulot yaratishda xatolik sodir bo'ldi",
-                'error' => $exception->getMessage(),
-                'line' => $exception->getLine(),
-                'file' => $exception->getFile()
-            ], 500);
-        }
+       return $this->productInterfaceRepo->store($request);
     }
     public function update(ProductUpdateRequest $request, $id)
     {
         if (!($this->check('product', 'edit'))) {
             return response()->json(['message' => "Amaliyot uchun huquq yo'q"], 403);
         }
-        $product = Product::where('id', $id)->first();
-        if (!$product) {
-            return response()->json(['message' => "Bu $id li ma'lumot topilmadi"], 404);
-        }
-        $product->update([
-            'category_id' => $request->category_id ?? $product->category_id,
-            'user_id' => auth()->id()
-        ]);
-        return response()->json(['message' => "Ma'lumot yangilandi"], 200);
+        return $this->productInterfaceRepo->update($request,$id);
     }
     public function destroy($id)
     {
         if (!($this->check('product', 'delete'))) {
             return response()->json(['message' => "Amaliyot uchun huquq yo'q"], 403);
         }
-        $product = Product::where('id', $id)->first();
-        if (!$product) {
-            return response()->json(['message' => "Bu $id li ma'lumot topilmadi"], 404);
-        }
-        $product->delete();
-        return response()->json([
-            'message' => "Ma'lumot o'chirildi",
-            'delete' => $product
-        ], 200);
+        return $this->productInterfaceRepo->destroy($id);
     }
     public function changeActive($id)
     {
         if (!($this->check('product', 'edit'))) {
             return response()->json(['message' => "Amaliyot uchun huquq yo'q"], 403);
         }
-        $product  = Product::find($id);
-        if (!$product) {
-            return response()->json(['message' => "Bu $id li ma'lumot topilmadi"], 404);
-        }
-        $product->active  = !$product->active;
-        $product->save();
-        return response()->json(['message' => "Amaliyot bajarildi"], 200);
+      return $this->productInterfaceRepo->changeActive($id);
     }
 }
