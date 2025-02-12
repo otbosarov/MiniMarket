@@ -38,8 +38,10 @@ class OutputProductController extends Controller
                 'users.full_name'
             )
             ->when($search, function ($query) use ($search) {
-                $query->where('products.product_name', 'ILIKE', "%$search%")
-                    ->orWhere('categories.category_title', 'ILIKE', "%$search%");
+            $query->where(function($q)use($search){
+                 $q->where('products.product_name', 'ILIKE', "%$search%")
+                     ->orWhere('categories.category_title', 'ILIKE', "%$search%");
+            });
             })
             ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
                 $query->whereDate('output_products.created_at', '>=', $startDate)
