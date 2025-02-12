@@ -14,4 +14,8 @@ class Product extends Model
         'user_id',
         'active',
     ];
+
+    public function category(){
+        return $this->hasOne(Category::class, 'id', 'category_id');
+    }
 }

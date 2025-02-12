@@ -20,4 +20,7 @@ class InvoiceProducts extends Model
         'selling_price',
         'status',
     ];
+    public function product(){
+        return $this->hasOne(Product::class,'id','product_id');
+    }
 }

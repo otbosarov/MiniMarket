@@ -13,7 +13,7 @@ class InvoiceApi
         Route::get('invoice_show', [InvoiceController::class, 'index']);
         Route::post('invoice_create', [InvoiceController::class, 'store']);
 
-        Route::get('invoice_products_show', [InvoiceProductsController::class, 'index']);
+        Route::get('invoice_products_show/{id}', [InvoiceProductsController::class, 'index']);
         Route::post('invoice_products_create', [InvoiceProductsController::class, 'store']);
     }
 }

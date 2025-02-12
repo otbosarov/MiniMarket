@@ -2,10 +2,10 @@
 namespace App\Repositories;
 
 use App\Http\Resources\UniversalResource;
-use App\Interfaces\ProductDetailInterface;
+use App\Interfaces\ProductInterface;
 use App\Models\Product;
 
-class ProductRepository implements ProductDetailInterface{
+class ProductRepository implements ProductInterface{
     public function index()
     {
         $perPage = request('per_page', 15);

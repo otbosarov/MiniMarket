@@ -14,4 +14,11 @@ class Invoice extends Model
         'total_price',
         'active',
     ];
+    public function invoice_products(){
+        return $this->hasMany(InvoiceProducts::class,'invoice_id','id');
+    }
+    public function invoice_user(){
+        return $this->hasOne(User::class,'id','user_id');
+    }
+
 }

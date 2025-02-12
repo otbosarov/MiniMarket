@@ -19,9 +19,9 @@ class ProductController extends Controller
     }
     public function store(ProductRequest $request)
     {
-        if (!($this->check('product', 'add'))) {
-            return response()->json(['message' => "Amaliyot uchun huquq yo'q"], 403);
-        }
+        // if (!($this->check('product', 'add'))) {
+        //     return response()->json(['message' => "Amaliyot uchun huquq yo'q"], 403);
+        // }
        return $this->productInterfaceRepo->store($request);
     }
     public function update(ProductUpdateRequest $request, $id)

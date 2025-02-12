@@ -55,7 +55,7 @@ class InputProductRepository implements InputProductInterface
     }
     public function store($request)
     {
-        
+
         $product = Product::where('products.id', $request->product_id)
 
             ->join('categories', 'products.category_id', 'categories.id')

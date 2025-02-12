@@ -25,9 +25,10 @@ class InputProductController extends Controller
         // InputProduct::factory()->create()->count(100000);
         // return 4;
 
-        if (!($this->check('product', 'add'))) {
-            return response()->json(['message' => "Amaliyot uchun huquq yo'q"], 403);
-        }
+        // if (!($this->check('product', 'add'))) {
+        //     return response()->json(['message' => "Amaliyot uchun huquq yo'q"], 403);
+        // }
+        
         return $this->inputProductInterfaceRepo->store($request);
     }
 }

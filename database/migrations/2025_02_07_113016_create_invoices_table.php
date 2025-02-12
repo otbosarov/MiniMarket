@@ -9,13 +9,13 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('RESTRICT');
             $table->string('currency_type')->default('UZS');
-            $table->decimal('total_price')->default(0);
+            $table->decimal('total_price',12,2)->default(0);
             $table->boolean('active')->default(true);
             $table->timestamps();
         });
