@@ -1,0 +1,1133 @@
+openapi: 3.0.3
+info:
+  title: Laravel
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost'
+paths:
+  /api/user:
+    get:
+      summary: ''
+      operationId: getApiUser
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/user_register:
+    post:
+      summary: ''
+      operationId: postApiUser_register
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                full_name:
+                  type: string
+                  description: 'Must match the regex /^[A-Za-z''\s]+$/. Must be at least 3 characters. Must not be greater than 60 characters.'
+                  example: hzdlkbcjudke
+                  nullable: false
+                username:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 60 characters.'
+                  example: bfnzckdwcjdcdc
+                  nullable: false
+                password:
+                  type: string
+                  description: 'Must be at least 4 characters. Must not be greater than 150 characters.'
+                  example: 'l3qTk@u^D~f=8+1r:'
+                  nullable: false
+                phone:
+                  type: string
+                  description: 'Must start with one of <code>+998</code> Must be 17 characters.'
+                  example: agoghhbvvkhwvqqix
+                  nullable: false
+              required:
+                - full_name
+                - username
+                - password
+                - phone
+      security: []
+  /api/user_login:
+    post:
+      summary: ''
+      operationId: postApiUser_login
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 60 characters.'
+                  example: iapsxuafrzgduvg
+                  nullable: false
+                password:
+                  type: string
+                  description: 'Must be at least 4 characters. Must not be greater than 150 characters.'
+                  example: r3S+xR
+                  nullable: false
+              required:
+                - username
+                - password
+      security: []
+  '/api/user_update/{id}':
+    put:
+      summary: ''
+      operationId: putApiUser_updateId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                product_id:
+                  type: integer
+                  description: ''
+                  example: 14
+                  nullable: false
+                full_name:
+                  type: string
+                  description: 'Must match the regex /^[A-Za-z''\s]+$/. Must be at least 3 characters. Must not be greater than 60 characters.'
+                  example: vksgbcdhscya
+                  nullable: false
+                password:
+                  type: string
+                  description: 'Must be at least 4 characters. Must not be greater than 150 characters.'
+                  example: 'j:nvQakvU1Sn0E).XSr'
+                  nullable: false
+                phone:
+                  type: string
+                  description: 'Must start with one of <code>+998</code> Must be 17 characters.'
+                  example: rblrhvybmyqkghnwm
+                  nullable: false
+              required:
+                - full_name
+                - password
+                - phone
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the user update.'
+        example: ipsa
+        required: true
+        schema:
+          type: string
+  '/api/user_delete/{id}':
+    delete:
+      summary: ''
+      operationId: deleteApiUser_deleteId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the user delete.'
+        example: delectus
+        required: true
+        schema:
+          type: string
+  '/api/user_changeActive/{id}':
+    put:
+      summary: ''
+      operationId: putApiUser_changeActiveId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the user changeActive.'
+        example: non
+        required: true
+        schema:
+          type: string
+  /api/users_show:
+    get:
+      summary: ''
+      operationId: getApiUsers_show
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/get_profil:
+    get:
+      summary: ''
+      operationId: getApiGet_profil
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/todayExchangeRateShow:
+    get:
+      summary: ''
+      operationId: getApiTodayExchangeRateShow
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/exchangeRateCreate:
+    post:
+      summary: ''
+      operationId: postApiExchangeRateCreate
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rate:
+                  type: number
+                  description: 'Must be between 10000 and 15000.'
+                  example: 10000
+                  nullable: false
+              required:
+                - rate
+      security: []
+  '/api/exchangeRateUpdate/{id}':
+    put:
+      summary: ''
+      operationId: putApiExchangeRateUpdateId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rate:
+                  type: number
+                  description: 'Must be between 10000 and 15000.'
+                  example: 10000
+                  nullable: false
+              required:
+                - rate
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the exchangeRateUpdate.'
+        example: tempore
+        required: true
+        schema:
+          type: string
+  /api/CurrencyShow:
+    get:
+      summary: ''
+      operationId: getApiCurrencyShow
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/category:
+    get:
+      summary: ''
+      operationId: getApiCategory
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: ''
+      operationId: postApiCategory
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                category_title:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 100 characters.'
+                  example: cb
+                  nullable: false
+                category_raise:
+                  type: integer
+                  description: 'Must be between 1 and 100.'
+                  example: 1
+                  nullable: false
+              required:
+                - category_title
+                - category_raise
+      security: []
+  '/api/category/{id}':
+    put:
+      summary: ''
+      operationId: putApiCategoryId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                category_raise:
+                  type: integer
+                  description: 'Must be between 1 and 100.'
+                  example: 2
+                  nullable: false
+              required:
+                - category_raise
+      security: []
+    delete:
+      summary: ''
+      operationId: deleteApiCategoryId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the category.'
+        example: et
+        required: true
+        schema:
+          type: string
+  '/api/category_changeActive/{id}':
+    put:
+      summary: ''
+      operationId: putApiCategory_changeActiveId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the category changeActive.'
+        example: tempore
+        required: true
+        schema:
+          type: string
+  /api/supplier:
+    get:
+      summary: ''
+      operationId: getApiSupplier
+      description: ''
+      parameters: []
+      responses:
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Server Error'
+                properties:
+                  message:
+                    type: string
+                    example: 'Server Error'
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: ''
+      operationId: postApiSupplier
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: 'Must be at least 4 characters. Must not be greater than 100 characters.'
+                  example: hzxqmxhvoaplxcndahd
+                  nullable: false
+                full_name:
+                  type: string
+                  description: 'Must match the regex /^[A-Za-z''\s]+$/. Must be at least 3 characters. Must not be greater than 60 characters.'
+                  example: ehlyob
+                  nullable: false
+              required:
+                - title
+                - full_name
+      security: []
+  '/api/supplier/{id}':
+    put:
+      summary: ''
+      operationId: putApiSupplierId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: 'Must be at least 4 characters. Must not be greater than 100 characters.'
+                  example: sujbomeydidrfyykddg
+                  nullable: false
+              required:
+                - title
+      security: []
+    delete:
+      summary: ''
+      operationId: deleteApiSupplierId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the supplier.'
+        example: eveniet
+        required: true
+        schema:
+          type: string
+  '/api/supplier_changeActive/{id}':
+    put:
+      summary: ''
+      operationId: putApiSupplier_changeActiveId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the supplier changeActive.'
+        example: vel
+        required: true
+        schema:
+          type: string
+  /api/product:
+    get:
+      summary: ''
+      operationId: getApiProduct
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: ''
+      operationId: postApiProduct
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                product_name:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 255 characters.'
+                  example: ds
+                  nullable: false
+                category_id:
+                  type: integer
+                  description: 'The <code>id</code> of an existing record in the categories table.'
+                  example: 14
+                  nullable: false
+              required:
+                - product_name
+                - category_id
+      security: []
+  '/api/product/{id}':
+    put:
+      summary: ''
+      operationId: putApiProductId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                category_id:
+                  type: integer
+                  description: 'The <code>id</code> of an existing record in the categories table.'
+                  example: 10
+                  nullable: false
+              required:
+                - category_id
+      security: []
+    delete:
+      summary: ''
+      operationId: deleteApiProductId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the product.'
+        example: eum
+        required: true
+        schema:
+          type: string
+  '/api/product_changeActive/{id}':
+    put:
+      summary: ''
+      operationId: putApiProduct_changeActiveId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the product changeActive.'
+        example: ut
+        required: true
+        schema:
+          type: string
+  /api/unity:
+    get:
+      summary: ''
+      operationId: getApiUnity
+      description: ''
+      parameters: []
+      responses:
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Server Error'
+                properties:
+                  message:
+                    type: string
+                    example: 'Server Error'
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: ''
+      operationId: postApiUnity
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: 'Must be at least 1 character. Must not be greater than 50 characters.'
+                  example: tdleyexcshmemmuhqygfoey
+                  nullable: false
+              required:
+                - title
+      security: []
+  '/api/unity/{id}':
+    put:
+      summary: ''
+      operationId: putApiUnityId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    delete:
+      summary: ''
+      operationId: deleteApiUnityId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the unity.'
+        example: veniam
+        required: true
+        schema:
+          type: string
+  /api/inputProduct:
+    get:
+      summary: ''
+      operationId: getApiInputProduct
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: ''
+      operationId: postApiInputProduct
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                product_id:
+                  type: integer
+                  description: 'The <code>id</code> of an existing record in the products table.'
+                  example: 15
+                  nullable: false
+                unity_id:
+                  type: integer
+                  description: 'The <code>id</code> of an existing record in the unities table.'
+                  example: 20
+                  nullable: false
+                amount:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 100.'
+                  example: 22
+                  nullable: false
+                supplier_id:
+                  type: integer
+                  description: 'The <code>id</code> of an existing record in the suppliers table.'
+                  example: 10
+                  nullable: false
+                currency_type:
+                  type: string
+                  description: ''
+                  example: USD
+                  nullable: false
+                  enum:
+                    - UZS
+                    - USD
+                input_price:
+                  type: number
+                  description: 'Must be at least 0.'
+                  example: 2
+                  nullable: false
+              required:
+                - product_id
+                - unity_id
+                - amount
+                - supplier_id
+                - currency_type
+                - input_price
+      security: []
+  /api/outputProduct:
+    get:
+      summary: ''
+      operationId: getApiOutputProduct
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: ''
+      operationId: postApiOutputProduct
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                product_id:
+                  type: integer
+                  description: 'The <code>id</code> of an existing record in the products table.'
+                  example: 5
+                  nullable: false
+                amount:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 100.'
+                  example: 13
+                  nullable: false
+                currency_type:
+                  type: string
+                  description: ''
+                  example: UZS
+                  nullable: false
+                  enum:
+                    - UZS
+                    - USD
+              required:
+                - product_id
+                - amount
+                - currency_type
+      security: []
+  /api/productDetail:
+    get:
+      summary: ''
+      operationId: getApiProductDetail
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  '/api/productDetail_update/{id}':
+    put:
+      summary: ''
+      operationId: putApiProductDetail_updateId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the productDetail update.'
+        example: et
+        required: true
+        schema:
+          type: string
+  /api/miniMarketBenifit:
+    get:
+      summary: ''
+      operationId: getApiMiniMarketBenifit
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/input_products_to_excel:
+    get:
+      summary: ''
+      operationId: getApiInput_products_to_excel
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/output_products_to_excel:
+    get:
+      summary: ''
+      operationId: getApiOutput_products_to_excel
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/product_details_to_excel:
+    get:
+      summary: ''
+      operationId: getApiProduct_details_to_excel
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/benefits_to_excel:
+    get:
+      summary: ''
+      operationId: getApiBenefits_to_excel
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/UserUploadToExcel:
+    get:
+      summary: ''
+      operationId: getApiUserUploadToExcel
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/invoice_show:
+    get:
+      summary: ''
+      operationId: getApiInvoice_show
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/invoice_create:
+    post:
+      summary: ''
+      operationId: postApiInvoice_create
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  '/api/invoice_products_show/{id}':
+    get:
+      summary: ''
+      operationId: getApiInvoice_products_showId
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the invoice products show.'
+        example: excepturi
+        required: true
+        schema:
+          type: string
+  /api/invoice_products_create:
+    post:
+      summary: ''
+      operationId: postApiInvoice_products_create
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+tags:
+  -
+    name: Endpoints
+    description: ''

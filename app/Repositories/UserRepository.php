@@ -61,7 +61,7 @@ class UserRepository implements UserInterface
             'delete' => $user
         ], 200);
     }
-    public function changeActive($id)
+    public function changeActive(int $id)
     {
         $user = User::find($id);
         if (!$user) {
