@@ -9,6 +9,7 @@ use App\Interfaces\UserInterface;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -35,8 +36,9 @@ class UserController extends Controller
         // }
         return $this->userInterfaceRepo->destroy($id);
     }
-    public function changeActive($id)
+    public function changeActive(int $id)
     {
+        Log::error(1);
         // if (!($this->check('user', 'edit'))) {
         //     return response()->json(['message' => "Amaliyot uchun huquq yo'q"], 403);
         // }

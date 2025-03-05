@@ -12,7 +12,7 @@ interface UserInterface
     function login(UserLoginRequest $request);
     function update(UserUpdateRequest $request, $id);
     function destroy($id);
-    function changeActive($id);
+    function changeActive(int $id);
     function index();
     function userInfo();
 }
